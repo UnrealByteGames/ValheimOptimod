@@ -92,12 +92,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HiddenSettings.cs" />
-    <Compile Include="PostProcessing.cs" />
+    <Compile Include="AutoPool\AP_Manager.cs" />
+    <Compile Include="AutoPool\AP_Pool.cs" />
+    <Compile Include="AutoPool\AP_Reference.cs" />
+    <Compile Include="AutoPool\MF_StaticAutoPool.cs" />
+    <Compile Include="GraphicSettings\HiddenSettings.cs" />
+    <Compile Include="Patches\ZonesPatch.cs" />
+    <Compile Include="Patches\ObjectPoolingPatch.cs" />
+    <Compile Include="GraphicSettings\PostProcessing.cs" />
     <Compile Include="Patches\SmokePatch.cs" />
     <Compile Include="ValheimOptimod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -59,9 +59,20 @@ namespace UnrealByte {
 		public static ConfigEntry<float> fogStartDistance { get; private set; }
 		public static ConfigEntry<float> fogEndDistance { get; private set; }
 		public static ConfigEntry<int> fogMode { get; private set; }
+		public static ConfigEntry<int> smoke { get; private set; }
+		public static ConfigEntry<int> activeZones { get; private set; }
+		public static ConfigEntry<int> loadedZones { get; private set; }
+		public static ConfigEntry<int> generatedZones { get; private set; }
+
 		#endregion
 
 		void Awake() {
+
+			Debug.Log("ValheimOptimod - System Specs");
+			Debug.Log("ValheimOptimod - Processors: " + SystemInfo.processorCount + " " + SystemInfo.processorType + " " + SystemInfo.processorFrequency);
+			Debug.Log("ValheimOptimod - Memory: " + SystemInfo.systemMemorySize);
+			Debug.Log("ValheimOptimod - Graphics Mem: " + SystemInfo.graphicsMemorySize);
+			Debug.Log("ValheimOptimod - SO: " + SystemInfo.operatingSystem);
 			LoadValues();
 
 			if (!modEnabled.Value)
@@ -140,6 +151,13 @@ namespace UnrealByte {
 			MBsampleCount = Config.Bind("Advanced", "MotionBlurSampleCount", 10, "Set the value for the amount of sample points. Less is faster, more is smother");
 			MBshutterAngle = Config.Bind("Advanced", "MotionBlurShutterAngle", 150f, "Set the angle of the rotary shutter. Larger values give longer exposure and a stronger blur effect.");
 			fogMode = Config.Bind("Flavor", "FogMode", 2, "1 - Linear, 2 - Exponential, 3 - ExponentialSquared");
+			smoke = Config.Bind("Flavor", "Smoke", 1, "1=True, 0=False");
+
+			//Zones
+			generatedZones = Config.Bind("Zones", "GeneratedZones", 5, "Default 5. Minimum value is LoadedZones");
+			loadedZones = Config.Bind("Zones", "LoadedZones", 3, "Default 3. Minimum value is ActiveZones");
+			activeZones = Config.Bind("Zones", "ActiveZones", 2, "Default 2. Minimum value is 1");
+			
 		}
 	}
 }
