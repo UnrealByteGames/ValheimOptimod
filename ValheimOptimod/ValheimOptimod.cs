@@ -68,11 +68,11 @@ namespace UnrealByte {
 
 		void Awake() {
 
-			Debug.Log("ValheimOptimod - System Specs");
-			Debug.Log("ValheimOptimod - Processors: " + SystemInfo.processorCount + " " + SystemInfo.processorType + " " + SystemInfo.processorFrequency);
-			Debug.Log("ValheimOptimod - Memory: " + SystemInfo.systemMemorySize);
-			Debug.Log("ValheimOptimod - Graphics Mem: " + SystemInfo.graphicsMemorySize);
-			Debug.Log("ValheimOptimod - SO: " + SystemInfo.operatingSystem);
+			Debug.Log("[ValheimOptimod] - System Specs");
+			Debug.Log("[ValheimOptimod] - Processors: " + SystemInfo.processorCount + " " + SystemInfo.processorType + " " + SystemInfo.processorFrequency);
+			Debug.Log("[ValheimOptimod] - Memory: " + SystemInfo.systemMemorySize);
+			Debug.Log("[ValheimOptimod] - Graphics Mem: " + SystemInfo.graphicsMemorySize);
+			Debug.Log("[ValheimOptimod] - SO: " + SystemInfo.operatingSystem);
 			LoadValues();
 
 			if (!modEnabled.Value)

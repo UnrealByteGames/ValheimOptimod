@@ -11,6 +11,7 @@ public class AP_Reference : MonoBehaviour {
 	[HideInInspector] public float timeSpawned;
 
 	public bool Despawn ( float del ) { // -1 will use delay specified in this script
+		Debug.Log("[ValheimOptimod] AP_Reference.Despawn: Despawning GameObject " + gameObject.GetInstanceID() + " Name " + gameObject.name + "Activestate: " + gameObject.activeSelf);
 		if ( del >= 0 ) { // override delay
 			if ( poolScript ) {
 				Invoke( "DoDespawn", del );

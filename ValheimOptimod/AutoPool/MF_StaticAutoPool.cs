@@ -53,6 +53,7 @@ public class MF_AutoPool {
 	static GameObject Spawn ( GameObject prefab, int? child, Vector3 pos, Quaternion rot, bool usePosRot ) {
 		FindOPM();
 		if ( opmScript == null ) { // didn't find an object pool manager
+			Debug.Log("[ValheimOptimod] MF_StaticAutoPool.Spawn: Didn't find an object pool manager");
 			return null;
 		} else { // found an object pool manager
 			return opmScript.Spawn( prefab, child, pos, rot, usePosRot );

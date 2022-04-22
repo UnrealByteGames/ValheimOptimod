@@ -114,7 +114,10 @@ public class AP_Pool : MonoBehaviour {
 	}
 	public GameObject Spawn ( int? child, Vector3 pos, Quaternion rot, bool usePosRot ) {
 		GameObject obj = GetObject();
-		if ( obj == null ) { return null; } // early out
+		if ( obj == null ) {
+			Debug.Log("[ValheimOptimod] AP_Pool.Spawn: obj=null, Early out");
+			return null; 
+		} // early out
 
 		obj.SetActive(false); // reset item in case object is being reused, has no effect if object is already disabled
 		obj.transform.parent = null;
@@ -132,6 +135,7 @@ public class AP_Pool : MonoBehaviour {
 	}
 
 	public void Despawn ( GameObject obj, AP_Reference oprScript ) { // return an object back to this pool
+		Debug.Log("[ValheimOptimod] AP_Pool.Despawn: Despawning GameObject " + gameObject.GetInstanceID() + " Name " + gameObject.name + "Activestate: " + gameObject.activeSelf);
 		if ( obj.transform.parent == transform ) { return; } // already in pool
 		obj.SetActive(false);
 		obj.transform.parent = transform;
@@ -139,12 +143,19 @@ public class AP_Pool : MonoBehaviour {
 		obj.transform.localRotation = Quaternion.identity;
 		oprScript.CancelInvoke();
 		pool.Push( new PoolItem( obj, oprScript ) );
+		Debug.Log("[ValheimOptimod] AP_Pool.Despawn: Despawed!");
 	}
 
 	public GameObject GetObject () { // get object from pool, creating one if necessary and if settings allow
 		GameObject result = null;
+		Debug.Log("[ValheimOptimod] AP_Pool.GetObject: Get object from pool, creating one if necessary and if settings allow");
+		Debug.Log("[ValheimOptimod] AP_Pool.GetObject: " + pool.Count);
 		if ( pool.Count == 0 ) {
-			if ( poolBlock.emptyBehavior == AP_enum.EmptyBehavior.Fail ) { failedSpawns++; return null; }
+			if ( poolBlock.emptyBehavior == AP_enum.EmptyBehavior.Fail ) {
+				Debug.Log("[ValheimOptimod] AP_Pool.GetObject: AP_enum.EmptyBehavior.Fail");
+				failedSpawns++; 
+				return null; 
+			}
 
 			if ( poolBlock.emptyBehavior == AP_enum.EmptyBehavior.ReuseOldest ) {
 				result = FindOldest();
@@ -153,7 +164,11 @@ public class AP_Pool : MonoBehaviour {
 
 			if ( poolBlock.emptyBehavior == AP_enum.EmptyBehavior.Grow ) {
 				if ( poolBlock.size >= poolBlock.maxSize ) {
-					if ( poolBlock.maxEmptyBehavior == AP_enum.MaxEmptyBehavior.Fail ) { failedSpawns++; return null; }
+					if ( poolBlock.maxEmptyBehavior == AP_enum.MaxEmptyBehavior.Fail ) {
+						Debug.Log("[ValheimOptimod] AP_Pool.GetObject: AP_enum.MaxEmptyBehavior.Fail");
+						failedSpawns++; 
+						return null; 
+					}
 					if ( poolBlock.maxEmptyBehavior == AP_enum.MaxEmptyBehavior.ReuseOldest ) {
 						result = FindOldest();
 						if ( result != null ) { reusedObjects++; }

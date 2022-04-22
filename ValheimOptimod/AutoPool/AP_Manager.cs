@@ -94,12 +94,14 @@ public class AP_Manager : MonoBehaviour {
 			if ( poolRef[obj] != null ) { // make sure pool still exsists
 				return poolRef[obj].Spawn( child, pos, rot, usePosRot ); // create spawn
 			} else { // pool no longer exsists
+				Debug.Log("[ValheimOptimod] AP_Manager.Spawn: Pool no longer exsists");
 				poolRef.Remove( obj ); // remove reference
 				return null;
 			}
 		} else { // ref not yet created
 			AP_Pool childScript = MakePoolRef ( obj ); // create ref
 			if ( childScript == null ) { // ref not found
+				Debug.Log("[ValheimOptimod] AP_Manager.Spawn: Ref not found");
 				return null;
 			} else {
 				return childScript.Spawn( child, pos, rot, usePosRot ); // create spawn

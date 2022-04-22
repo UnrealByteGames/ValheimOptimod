@@ -6,6 +6,20 @@ using UnityEngine;
 namespace UnrealByte {
     public class ZonesPatch {
 
+        /**
+         * 
+        The game world is split to "zones" of 64x64 meters. 
+        By default the current zone and all adjacent zones consist of the active area. 
+        This is the area where things happen and where creatures are visible.
+
+        Around that is the loaded area. Here objects exist in the world but are frozen. 
+        Static objects like structures are visible here. Real terrain is visible here.
+
+        Finally there is the distant area that is two zones around the loaded area. 
+        Here most objects are instantly destroyed after being generated. Big static objects like trees are visible here.
+
+        */
+
         [HarmonyPatch(typeof(ZoneSystem), "Awake")]
         public class ZoneSystemActive {
             static void Postfix(ZoneSystem __instance) => Set(__instance);
