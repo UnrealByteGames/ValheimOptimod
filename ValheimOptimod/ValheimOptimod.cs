@@ -1,13 +1,20 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace UnrealByte {
     [BepInPlugin("com.unrealbyte.valheimoptimod", "Valheim Optimod", "0.2.0")]
     [BepInProcess("valheim.exe")]
     public class ValheimOptimod : BaseUnityPlugin {
-        private readonly Harmony harmony = new Harmony("com.unrealbyte.valheimoptimod");
+
+		private static ValheimOptimod _instance;
+		private Harmony harmony;
+
+		public static event Action<ConfigFile, Harmony> OnInitialized;
 
 		#region Settings
 		public static ConfigEntry<bool> modEnabled { get; private set; }
@@ -73,17 +80,34 @@ namespace UnrealByte {
 			Debug.Log("[ValheimOptimod] - Memory: " + SystemInfo.systemMemorySize);
 			Debug.Log("[ValheimOptimod] - Graphics Mem: " + SystemInfo.graphicsMemorySize);
 			Debug.Log("[ValheimOptimod] - SO: " + SystemInfo.operatingSystem);
+
+			_instance = this;
+			harmony = new Harmony("com.unrealbyte.valheimoptimod");
+
+			AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()).Do(type => {
+				// check if class is static
+				if (!type.IsAbstract || !type.IsSealed) return;
+
+				var constructor = type.GetConstructor(
+					BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic,
+					null, Type.EmptyTypes, Array.Empty<ParameterModifier>()
+				);
+
+				if (constructor != null) {
+					RuntimeHelpers.RunClassConstructor(type.TypeHandle);
+				}
+			});
+
 			LoadValues();
 
 			if (!modEnabled.Value)
 				return;
 
-			//harmony.PatchAll(typeof(HiddenSettings));
-			//harmony.PatchAll(typeof(PostProcessing));
-			//harmony.PatchAll(typeof(Main));
 			harmony.PatchAll();
 
 			Config.ConfigReloaded += OnReloaded;
+
+			OnInitialized?.Invoke(Config, harmony);
 		}
 
 		private void OnReloaded(object sender, System.EventArgs e) {
@@ -158,6 +182,10 @@ namespace UnrealByte {
 			loadedZones = Config.Bind("Zones", "LoadedZones", 3, "Default 3. Minimum value is ActiveZones");
 			activeZones = Config.Bind("Zones", "ActiveZones", 2, "Default 2. Minimum value is 1");
 			
+		}
+
+		private void OnDestroy() {
+			harmony?.UnpatchSelf();
 		}
 	}
 }

@@ -6,6 +6,9 @@ using UnityEngine;
 namespace UnrealByte {
     public class ZonesPatch {
 
+        //public static int instancesCount = 0;
+        //private static int nextUpdate = 5;
+
         /**
          * 
         The game world is split to "zones" of 64x64 meters. 
@@ -23,7 +26,7 @@ namespace UnrealByte {
         [HarmonyPatch(typeof(ZoneSystem), "Awake")]
         public class ZoneSystemActive {
             static void Postfix(ZoneSystem __instance) => Set(__instance);
-            static void Set(ZoneSystem obj) {                 
+            static void Set(ZoneSystem obj) {
                 obj.m_activeArea = ValheimOptimod.loadedZones.Value - 1;
                 obj.m_activeDistantArea = ValheimOptimod.generatedZones.Value - ValheimOptimod.loadedZones.Value;
             }

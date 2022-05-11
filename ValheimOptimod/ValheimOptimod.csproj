@@ -92,13 +92,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoPool\AP_Manager.cs" />
-    <Compile Include="AutoPool\AP_Pool.cs" />
-    <Compile Include="AutoPool\AP_Reference.cs" />
-    <Compile Include="AutoPool\MF_StaticAutoPool.cs" />
     <Compile Include="GraphicSettings\HiddenSettings.cs" />
     <Compile Include="Patches\ZonesPatch.cs" />
-    <Compile Include="Patches\ObjectPoolingPatch.cs" />
     <Compile Include="GraphicSettings\PostProcessing.cs" />
     <Compile Include="Patches\SmokePatch.cs" />
     <Compile Include="ValheimOptimod.cs" />
